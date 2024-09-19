@@ -14,6 +14,26 @@ from qdax.core.containers.mapelites_repertoire import MapElitesRepertoire
 from omegaconf import OmegaConf
 
 
+ENV_LIST = [
+    "ant_omni",
+    "anttrap_omni",
+    "humanoid_omni",
+    "walker2d_uni",
+    "halfcheetah_uni",
+    "ant_uni",
+    "humanoid_uni",
+]
+ALGO_LIST = [
+    "dcrl_me",
+    "dcg_me",
+    "pga_me",
+    "qd_pg",
+    "me",
+    "me_es",
+    "ablation_actor",
+    "ablation_ai",
+]
+
 def get_env(config):
     if config.env.version == "v1":
         if config.env.name == "hopper_uni":
@@ -161,9 +181,9 @@ def get_repertoire(run_dir):
 def get_df(results_dir):
     metrics_list = []
     for env_dir in results_dir.iterdir():
-        if env_dir.is_dir():
+        if env_dir.is_dir() and env_dir.name in ENV_LIST:
             for algo_dir in env_dir.iterdir():
-                if algo_dir.is_dir():
+                if algo_dir.is_dir() and algo_dir.name in ALGO_LIST:
                     for run_dir in algo_dir.iterdir():
                         if run_dir.is_dir():
                             # Get config and metrics

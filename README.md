@@ -99,7 +99,7 @@ Once all the experiments are completed, any figures from the paper can be replic
 - Figure 4: `analysis/plot_archive.py`
 - Figure 5: `analysis/plot_ablation.py`
 - Figure 4: `analysis/plot_reproducibility.py`
-- Figure 5: `analysis/plot_improvement.py`
+- Figure 5: `analysis/plot_emitter_improvement.py`
 
 ## P-values
 

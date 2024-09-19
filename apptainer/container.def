@@ -1,0 +1,48 @@
+Bootstrap: docker
+From: ubuntu:22.04
+
+%labels
+	Author m.faldor22@imperial.ac.uk
+
+%help
+	DCG-MAP-Elites GECCO 2023 Best Paper Award + DCRL-MAP-Elites ACM TELO 2024
+
+%environment
+	# System
+	export TZ=Europe/London
+	export OPENBLAS_NUM_THREADS=1
+
+	# Activate virtual environment permanently
+	export VIRTUAL_ENV="/venv"
+	export _OLD_VIRTUAL_PATH="$PATH"
+	export PATH="$VIRTUAL_ENV/bin:$PATH"
+
+	# Add /src/ to PYTHONPATH
+	export PYTHONPATH="/src"
+
+%post
+	export DEBIAN_FRONTEND=noninteractive
+
+	# Update and install required libraries
+	apt update
+	apt install -y wget git software-properties-common ffmpeg
+
+	# Install Python
+	add-apt-repository ppa:deadsnakes/ppa
+	apt install -y python3.10 python3.10-venv
+
+	# Create a virtual environment
+	python3.10 -m venv /venv
+	. /venv/bin/activate
+	python -m ensurepip
+	pip install --upgrade pip
+
+	# Clone repository to /src/
+	git clone https://github.com/adaptive-intelligent-robotics/DCRL-MAP-Elites.git /src/ && cd /src/
+
+	# Install requirements
+	pip install -r requirements.txt
+
+%runscript
+	# Run main
+	python /src/main.py "$@"
